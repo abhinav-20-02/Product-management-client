@@ -24,7 +24,7 @@ const AttendanceList = () => {
     dispatch(updateStudent({ id: student.id, data: { status: newStatus } }));
   };
 
-  const filteredStudents = students.filter((s) => s.date === selectedDate);
+  const filteredStudents = Array.isArray(students) ? students.filter((s) => s && s.date === selectedDate) : [];
 
   const handleDateChange = (e) => {
     dispatch(setSelectedDate(e.target.value));

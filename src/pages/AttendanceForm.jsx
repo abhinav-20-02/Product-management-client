@@ -19,7 +19,7 @@ const AttendanceForm = () => {
 
   useEffect(() => {
     if (id) {
-      const studentToEdit = students.find(s => String(s.id) === String(id));
+      const studentToEdit = Array.isArray(students) ? students.find(s => String(s.id) === String(id)) : null;
       if (studentToEdit) {
         setFormData(studentToEdit);
       }

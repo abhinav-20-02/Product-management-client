@@ -9,7 +9,7 @@ const commonApi = async (reqMethod, reqUrl, reqData) => {
     return await axios(config).then(res => {
         return res;
     }).catch(err => {
-        return err;
+        throw err;
     });
 };
 

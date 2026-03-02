@@ -73,7 +73,10 @@ const attendanceSlice = createSlice({
       })
       .addCase(fetchStudents.fulfilled, (state, action) => {
         state.loading = false;
-        state.students = action.payload;
+        state.students = Array.isArray(action.payload) ? action.payload : [];
+        if (!Array.isArray(action.payload)) {
+          state.error = "Data format error: Expected an array of students.";
+        }
       })
       .addCase(fetchStudents.rejected, (state, action) => {
         state.loading = false;
