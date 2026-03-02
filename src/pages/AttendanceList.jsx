@@ -81,8 +81,9 @@ const AttendanceList = () => {
               <h3 className="text-lg font-bold text-gray-800 pr-16">{student.name}</h3>
               <p className="text-sm text-gray-500 mb-4">
                 Roll No: <span className="font-semibold">{student.rollNumber}</span> •{' '}
-                <span className="font-semibold">{student.class}</span>
+                
               </p>
+              <p>Class:<span className="font-semibold">{student.class}</span></p>
               <div className="flex justify-between items-center mt-6 pt-4 border-t border-gray-200">
                 <p className="text-xs text-gray-400 font-medium">{student.date}</p>
                 <div className="flex gap-2">
