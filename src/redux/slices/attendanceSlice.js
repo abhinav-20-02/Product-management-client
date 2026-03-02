@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getStudentsApi, addStudentApi, updateStudentApi, deleteStudentApi } from '../../api/attendanceApi';
 
-
 export const fetchStudents = createAsyncThunk(
   'attendance/fetchStudents',
   async (_, { rejectWithValue }) => {
@@ -73,9 +72,19 @@ const attendanceSlice = createSlice({
       })
       .addCase(fetchStudents.fulfilled, (state, action) => {
         state.loading = false;
-        state.students = Array.isArray(action.payload) ? action.payload : [];
-        if (!Array.isArray(action.payload)) {
-          state.error = "Data format error: Expected an array of students.";
+        let data = action.payload;
+        if (data && !Array.isArray(data) && Array.isArray(data.students)) {
+          data = data.students;
+        }
+        if (Array.isArray(data)) {
+          state.students = data;
+          state.error = null;
+        } else {
+          state.students = [];
+          const responsePreview = typeof action.payload === 'object' 
+            ? JSON.stringify(action.payload).substring(0, 100) 
+            : String(action.payload).substring(0, 100);
+          state.error = `Data format error: Expected an array but received ${typeof action.payload}. Data: ${responsePreview}...`;
         }
       })
       .addCase(fetchStudents.rejected, (state, action) => {

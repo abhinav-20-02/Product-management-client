@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { addStudent, updateStudent } from '../redux/slices/attendanceSlice';
+import { addStudent, updateStudent, fetchStudents } from '../redux/slices/attendanceSlice';
 
 const AttendanceForm = () => {
   const { id } = useParams();
@@ -18,13 +18,16 @@ const AttendanceForm = () => {
   });
 
   useEffect(() => {
-    if (id) {
-      const studentToEdit = Array.isArray(students) ? students.find(s => String(s.id) === String(id)) : null;
+    if (students.length === 0) {
+      dispatch(fetchStudents());
+    }
+    if (id && students.length > 0) {
+      const studentToEdit = students.find(s => String(s.id) === String(id));
       if (studentToEdit) {
         setFormData(studentToEdit);
       }
     }
-  }, [id, students]);
+  }, [id, students, dispatch]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
